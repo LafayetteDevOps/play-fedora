@@ -1,0 +1,29 @@
+---
+
+# ansible play to prepare fedora workstation; may be refactored to playbook
+# syntax: ansible-playbook play.yml --ask-become-pass
+ 
+- hosts: localhost
+  connection: local
+  vars:
+    packages:
+      - ansible
+      - docker
+      - gedit
+
+  tasks:
+  - name: hostname and operating system distribution
+    debug: 
+      msg: "This system, {{ ansible_hostname }}, is running {{ ansible_distribution}} {{ ansible_distribution_version }} ."
+
+  - name: facts to characterize system 
+    debug: 
+      msg: 
+        - "{{ ansible_architecture }}"
+        - "{{ ansible_processor }}"
+
+  - name: ensure requested packages are present
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items: "{{ packages }}" 
