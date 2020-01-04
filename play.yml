@@ -13,14 +13,31 @@
 
   tasks:
   - name: hostname and operating system distribution
+    # display the varible data type
     debug: 
       msg: "This system, {{ ansible_hostname }}, is running {{ ansible_distribution}} {{ ansible_distribution_version }} ."
 
-  - name: facts to characterize system 
+  - name: facts to characterize system
+    # simply printing the value of the fact which is Ansible UnSafe Text type 
     debug: 
       msg: 
         - "{{ ansible_architecture }}"
         - "{{ ansible_processor }}"
+
+  - name: description to be filled in later - dictionary
+    # accessing an element of dictionary
+    debug:
+      msg: "{{ ansible_apparmor.status }}"
+
+  - name: description to be filled in later - list
+    # accessing a list
+    debug:
+      msg: "{{ ansible_all_ipv4_addresses }}"
+
+  - name: description to be filled in later - accessing an element
+    # accessing the second element of a list
+    debug:
+      msg: "{{ ansible_all_ipv4_addresses[1] }}"
 
   - name: ensure requested packages are present
     package:
