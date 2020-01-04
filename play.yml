@@ -10,6 +10,7 @@
       - ansible
       - docker
       - gedit
+      - vim
 
   tasks:
   - name: hostname and operating system distribution
