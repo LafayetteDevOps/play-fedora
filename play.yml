@@ -23,7 +23,7 @@
     debug: 
       msg: 
         - "{{ ansible_architecture }}"
-        - "{{ ansible_processor }}"
+        - "{{ ansible_processor[0:3] }}"
 
   - name: description to be filled in later - dictionary
     # accessing an element of dictionary
