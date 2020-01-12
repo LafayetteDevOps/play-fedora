@@ -11,7 +11,10 @@
       - docker
       - gedit
       - vim
-
+    get_url:
+      - https://releases.hashicorp.com/terraform/0.12.19/terraform_0.12.19_linux_amd64.zip
+      - https://releases.hashicorp.com/packer/1.5.1/packer_1.5.1_linux_amd64.zip
+        
   tasks:
   - name: hostname and operating system distribution
     # display the varible data type
@@ -39,6 +42,13 @@
   - name: description to be filled in later - accessing an element
     debug:
       msg: "{{ ansible_all_ipv4_addresses[1] }}"
+
+  - name: pull terraform and packer binaries and extract
+    unarchive: 
+      src: "{{ item }}"
+      remote_src: yes
+      dest: /usr/local/bin
+    with_items: "{{ get_url }}"
 
   - name: ensure requested packages are present
     package:
