@@ -14,6 +14,8 @@
     get_url:
       - https://releases.hashicorp.com/terraform/0.12.19/terraform_0.12.19_linux_amd64.zip
       - https://releases.hashicorp.com/packer/1.5.1/packer_1.5.1_linux_amd64.zip
+    get_bundle:
+      - https://s3.amazonaws.com/aws-cli/awscli-bundle.zip
         
   tasks:
   - name: hostname and operating system distribution
@@ -49,6 +51,18 @@
       remote_src: yes
       dest: /usr/local/bin
     with_items: "{{ get_url }}"
+
+  - name: pull awscli bundle and extract
+    unarchive:
+      src: "{{ item }}"
+      remote_src: yes
+      dest: /home/chris/Downloads/
+    with_items: "{{ get_bundle }}"
+
+  - name: Change to the directory of the awscli bundle and install
+    shell:  ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+    args:
+      chdir: /home/chris/Downloads/
 
   - name: ensure requested packages are present
     package:
